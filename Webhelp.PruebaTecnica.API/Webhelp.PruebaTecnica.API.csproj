@@ -20,5 +20,16 @@
     <ProjectReference Include="..\Webhelp.PruebaTecnica.Infrastructure\Webhelp.PruebaTecnica.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\Webhelp.PruebaTecnica.Domain\Webhelp.PruebaTecnica.Domain.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\" />
+    <None Remove="Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>

@@ -15,4 +15,13 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Webhelp.PruebaTecnica.Domain\Webhelp.PruebaTecnica.Domain.csproj" />
+  </ItemGroup>
 </Project>

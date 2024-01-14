@@ -1,6 +1,10 @@
 using Webhelp.PruebaTecnica.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Webhelp.PruebaTecnica.API.Services;
+using Webhelp.PruebaTecnica.Domain.Repositories;
+using Webhelp.PruebaTecnica.Infrastructure.Repositories;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +24,11 @@ builder.Services.AddDbContext<MedicalCenterDBContext>(
     options => options.UseMySql(dbConnectionString, serverVersion)
 );
 
+
+// Dependency injection
+
+builder.Services.AddTransient<IPatientSevice, PatientService>();
+builder.Services.AddTransient<IPatientRepository, PatientRepository>();
 
 var app = builder.Build();
 
