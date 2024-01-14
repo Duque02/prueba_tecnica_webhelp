@@ -13,9 +13,10 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-       int DocumentId { get; set; }
-       string Description { get; set; }
+        public int DocumentId { get; set; }
 
-        ICollection<PatientEntity> Patients { get; set; }
+        public string Description { get; set; }
+
+        public ICollection<PatientEntity> Patients { get; set; }
     }
 }

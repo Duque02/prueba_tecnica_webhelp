@@ -13,9 +13,10 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        int StateId { get; set; }
-        string Description { get; set; }
-        
-        ICollection<AppointmentEntity> Appointments { get; set; }
+        public int StateId { get; set; }
+
+        public string Description { get; set; }
+
+        public ICollection<AppointmentEntity> Appointments { get; set; }
     }
 }

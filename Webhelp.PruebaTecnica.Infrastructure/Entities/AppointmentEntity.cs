@@ -13,16 +13,22 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        int AppointmentId { get; set; }
-        DateOnly Date {  get; set; }
-        TimeOnly Time { get; set; }
-        [ForeignKey("Patient")]
-        int? PatientId { get; set; }
-        [ForeignKey("AppointmentState")]
-        int StateId { get; set; }
-        DateTime LastUpdate { get; set; }
+        public int AppointmentId { get; set; }
 
-        AppointmentStateEntity AppointmentState { get; set; }
-        PatientEntity? Patient { get; set; }
+        public DateOnly Date {  get; set; }
+
+        public TimeOnly Time { get; set; }
+
+        [ForeignKey("Patient")]
+        public int? PatientId { get; set; }
+
+        [ForeignKey("AppointmentState")]
+        public int StateId { get; set; }
+
+        public DateTime LastUpdate { get; set; }
+
+        public AppointmentStateEntity AppointmentState { get; set; }
+
+        public PatientEntity? Patient { get; set; }
     }
 }

@@ -10,24 +10,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Webhelp.PruebaTecnica.Infrastructure.Entities
 {
     [Table("Patients")]
-    [Index(nameof(Document), IsUnique = true)]
     internal class PatientEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        int PatientId { get; set; }
+        public int PatientId { get; set; }
 
-        string Name { get; set; }
+        public string Name { get; set; }
 
-        string LastName { get; set; }
+        public string LastName { get; set; }
 
         [ForeignKey("DocumentType")]
-        int DocumentTypeId { get; set; }
+        public int DocumentTypeId { get; set; }
 
-        string Document { get; set; }
+        public string Document { get; set; }
 
-       DocumentTypeEntity DocumentType { get; set; }
+        public DocumentTypeEntity DocumentType { get; set; }
 
-        ICollection<AppointmentEntity> Appointments { get; set; }
+        public ICollection<AppointmentEntity> Appointments { get; set; }
     }
 }

@@ -16,5 +16,12 @@ namespace Webhelp.PruebaTecnica.Infrastructure
         internal DbSet<DocumentTypeEntity> DocumentTypeEntity { get; set; }
         internal DbSet<AppointmentEntity> AppointmentEntity { get; set; }
         internal DbSet<PatientEntity> PatientEntity { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<PatientEntity>()
+                .HasIndex(u => u.Document)
+                .IsUnique();
+        }
     }
 }
