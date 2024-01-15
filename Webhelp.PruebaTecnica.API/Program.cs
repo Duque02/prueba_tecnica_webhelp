@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Webhelp.PruebaTecnica.API.Services;
 using Webhelp.PruebaTecnica.Domain.Repositories;
 using Webhelp.PruebaTecnica.Infrastructure.Repositories;
+using Webhelp.PruebaTecnica.API.Authentication;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,8 +30,11 @@ builder.Services.AddDbContext<MedicalCenterDBContext>(
 
 builder.Services.AddTransient<IPatientSevice, PatientService>();
 builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+
 builder.Services.AddTransient<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddTransient<IAppointmentService, AppointmentService>();
+
+builder.Services.AddTransient<IAuthenticationManager, AuthenticationManager>();
 
 var app = builder.Build();
 

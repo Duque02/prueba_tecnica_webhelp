@@ -7,6 +7,8 @@ using Webhelp.PruebaTecnica.API.Services;
 using Webhelp.PruebaTecnica.Domain.Models;
 using Webhelp.PruebaTecnica.Domain.Exceptions;
 using Webhelp.PruebaTecnica.API.RequestModels;
+using Webhelp.PruebaTecnica.API.Authentication;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,24 +17,31 @@ namespace Webhelp.PruebaTecnica.API.Controllers
     [Route("api/[controller]")]
     public class AppointmentController : Controller
     {
+        private readonly IAuthenticationManager _authManager;
         private readonly IAppointmentService _service;
 
-        public AppointmentController(IAppointmentService service)
+        public AppointmentController(IAppointmentService service, IAuthenticationManager autManager)
         {
             _service = service;
+            _authManager = autManager;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string? date)
+        public async Task<IActionResult> Get([FromHeader(Name = "ApiKey")] string? apiKey, [FromQuery] string? date)
         {
             try
             {
-                ICollection<Appointment> appointments = await _service.GetAppointment(1, date);
+                _authManager.validateApiKey(apiKey);
 
+                ICollection<Appointment> appointments = await _service.GetAppointment(1, date);
                 return Ok(new
                 {
                     results = appointments
                 });
+            }
+            catch (AuthenticationException)
+            {
+                return Unauthorized();
             }
             catch (BadRequestException)
             {
@@ -46,15 +55,19 @@ namespace Webhelp.PruebaTecnica.API.Controllers
 
         // POST api/values
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UpdateAppointmentRequest value)
+        public async Task<IActionResult> Put([FromHeader(Name = "ApiKey")] string? apiKey, [FromBody] UpdateAppointmentRequest value)
         {
             try
             {
+                _authManager.validateApiKey(apiKey);
                 Appointment updateAppointment = await _service.AppointmentUpdate(value);
-
                 return Ok(
                     updateAppointment
                 );
+            }
+            catch (AuthenticationException)
+            {
+                return Unauthorized();
             }
             catch (NotFoundException)
             {
