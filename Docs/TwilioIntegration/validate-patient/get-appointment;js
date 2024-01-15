@@ -1,0 +1,38 @@
+const axios = require('axios');
+
+exports.handler = async function(context, event, callback) {
+  
+  const apiKey = process.env.ApiKey;
+  const api = process.env.API;
+
+  let tomorrow = new Date();
+  tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+
+  const year = tomorrow.toLocaleString("default", { year: "numeric" });
+  const month = tomorrow.toLocaleString("default", { month: "2-digit" });
+  const day = tomorrow.toLocaleString("default", { day: "2-digit" });
+
+  var formattedDate = year + "/" + month + "/" + day;
+
+  const endpoint = `${api}/api/Appointment?date=${formattedDate}`;
+
+  try {
+
+      axios.defaults.headers = {"ApiKey" : apiKey}
+      const response = await axios.get(endpoint)
+      const results = response.data.results;
+      if (results.length == 0) {
+        return callback(null, { voiceMessage: "No hay citas disponibles" });
+      }
+
+      let voiceMessage = "";
+
+      for (var item of results) {
+        voiceMessage += `Ingrese ... ${item.appointmentId} ... para agender una cita el día ... ${item.date} a la hora ... ${item.hours}...`
+      }
+
+      return callback(null, { voiceMessage });      
+  } catch (error) {
+    return callback(error)
+  }
+};
