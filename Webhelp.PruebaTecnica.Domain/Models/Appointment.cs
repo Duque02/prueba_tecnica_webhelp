@@ -14,6 +14,8 @@ namespace Webhelp.PruebaTecnica.Domain.Models
         public int? PatientId { get; set; }
 
         public int StateID { get; set; }
+
+        public string LastUpdate { get; set; }
 	}
 }
 

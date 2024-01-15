@@ -32,6 +32,38 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Repositories
 
             return appointments;
         }
+
+        public async Task<Appointment> UpdateAppointments(int appointmentId, int patientId, int stateId)
+        {
+            AppointmentEntity? appointment = await _dBContext.AppointmentEntity
+                .Where(item => item.AppointmentId == appointmentId)
+                .FirstOrDefaultAsync();
+
+            if(appointment != null)
+            {
+                appointment.StateId = stateId;
+                appointment.PatientId = patientId;
+                appointment.LastUpdate = DateTime.Now;
+
+                _dBContext.AppointmentEntity.Update(appointment);
+                await _dBContext.SaveChangesAsync();
+
+                return new Appointment
+                {
+                    AppointmentId = appointment.AppointmentId,
+                    Date = appointment.Date.ToString(),
+                    Hours = appointment.Time.ToString(),
+                    PatientId = appointment.PatientId,
+                    StateID = appointment.StateId,
+                    LastUpdate = appointment.LastUpdate.ToString() ?? ""
+
+                };
+            }
+            else
+            {
+                throw new NotFoundException();
+            }
+        }
     }
 }
 

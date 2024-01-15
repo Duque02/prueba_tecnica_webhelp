@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Webhelp.PruebaTecnica.API.Services;
 using Webhelp.PruebaTecnica.Domain.Models;
 using Webhelp.PruebaTecnica.Domain.Exceptions;
+using Webhelp.PruebaTecnica.API.RequestModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,7 +29,8 @@ namespace Webhelp.PruebaTecnica.API.Controllers
             {
                 ICollection<Appointment> appointments = await _service.GetAppointment(1, date);
 
-                return Ok(new {
+                return Ok(new
+                {
                     results = appointments
                 });
             }
@@ -42,6 +44,26 @@ namespace Webhelp.PruebaTecnica.API.Controllers
             }
         }
 
+        // POST api/values
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] UpdateAppointmentRequest value)
+        {
+            try
+            {
+                Appointment updateAppointment = await _service.AppointmentUpdate(value);
+
+                return Ok(
+                    updateAppointment
+                );
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
     }
 }
-

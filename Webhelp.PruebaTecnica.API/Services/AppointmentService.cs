@@ -2,6 +2,7 @@
 using Webhelp.PruebaTecnica.Domain.Models;
 using Webhelp.PruebaTecnica.Domain.Repositories;
 using Webhelp.PruebaTecnica.Domain.Exceptions;
+using Webhelp.PruebaTecnica.API.RequestModels;
 
 namespace Webhelp.PruebaTecnica.API.Services
 {
@@ -29,6 +30,15 @@ namespace Webhelp.PruebaTecnica.API.Services
             ICollection<Appointment> appointment = await _repository.GetAppointments(stateId, queryDate);
             return appointment;
         }
+		public async Task<Appointment> AppointmentUpdate(UpdateAppointmentRequest value)
+		{
+			var stateId = 2;
+			Appointment appointment = await _repository.UpdateAppointments(value.appointmentId, value.patientCode, stateId);
+			return appointment;
+        }
+
+
+
     }
 }
 
