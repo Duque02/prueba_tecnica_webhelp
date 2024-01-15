@@ -15,6 +15,8 @@ namespace Webhelp.PruebaTecnica.Domain.Models
 
         public int StateID { get; set; }
 
+        public string? StateDescription { get; set; }
+
         public string LastUpdate { get; set; }
 	}
 }

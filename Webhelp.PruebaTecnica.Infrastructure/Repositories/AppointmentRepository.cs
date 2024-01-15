@@ -39,7 +39,7 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Repositories
                 .Where(item => item.AppointmentId == appointmentId)
                 .FirstOrDefaultAsync();
 
-            if(appointment != null)
+            if (appointment != null)
             {
                 appointment.StateId = stateId;
                 appointment.PatientId = patientId;
@@ -63,6 +63,24 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Repositories
             {
                 throw new NotFoundException();
             }
+        }
+
+        public async Task<ICollection<Appointment>> GetByDate(DateOnly date) {
+            ICollection<Appointment> appointments = await _dBContext.AppointmentEntity
+                .Where(item => item.Date == date)
+                .Select(item => new Appointment()
+                {
+                    AppointmentId = item.AppointmentId,
+                    Date = item.Date.ToString(),
+                    Hours = item.Time.ToString(),
+                    PatientId = item.PatientId,
+                    StateID = item.StateId,
+                    StateDescription = item.AppointmentState.Description
+                })
+                .ToListAsync();
+
+
+            return appointments;
         }
     }
 }

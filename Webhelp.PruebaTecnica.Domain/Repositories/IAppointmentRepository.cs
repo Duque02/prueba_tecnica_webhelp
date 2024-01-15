@@ -9,6 +9,8 @@ namespace Webhelp.PruebaTecnica.Domain.Repositories
 		public Task<ICollection<Appointment>> GetAppointments(int stateId, DateOnly date);
 
 		public Task<Appointment> UpdateAppointments(int appointmentId, int patientId, int stateId);
+
+        public Task<ICollection<Appointment>> GetByDate(DateOnly date);
 	}
 }
 

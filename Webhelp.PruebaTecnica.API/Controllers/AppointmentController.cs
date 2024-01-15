@@ -33,7 +33,7 @@ namespace Webhelp.PruebaTecnica.API.Controllers
             {
                 _authManager.validateApiKey(apiKey);
 
-                ICollection<Appointment> appointments = await _service.GetAppointment(1, date);
+                ICollection<Appointment> appointments = await _service.GetAppointment(AppointmentStates.Available, date);
                 return Ok(new
                 {
                     results = appointments
@@ -72,6 +72,34 @@ namespace Webhelp.PruebaTecnica.API.Controllers
             catch (NotFoundException)
             {
                 return NotFound();
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetbyDate")]
+        public async Task<IActionResult> GetByDate([FromHeader(Name = "ApiKey")] string? apiKey, [FromQuery] string? date)
+        {
+            try
+            {
+                _authManager.validateApiKey(apiKey);
+
+                ICollection<Appointment> appointments = await _service.GetByDate(date);
+                return Ok(new
+                {
+                    results = appointments
+                });
+            }
+            catch (AuthenticationException)
+            {
+                return Unauthorized();
+            }
+            catch (BadRequestException)
+            {
+                return BadRequest();
             }
             catch (Exception e)
             {

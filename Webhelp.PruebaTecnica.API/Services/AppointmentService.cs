@@ -27,17 +27,38 @@ namespace Webhelp.PruebaTecnica.API.Services
 				throw new BadRequestException();
 			}
 
-            ICollection<Appointment> appointment = await _repository.GetAppointments(stateId, queryDate);
-            return appointment;
+            ICollection<Appointment> appointments = await _repository.GetAppointments(stateId, queryDate);
+            return appointments;
         }
 		public async Task<Appointment> AppointmentUpdate(UpdateAppointmentRequest value)
 		{
-			var stateId = 2;
+			var stateId = AppointmentStates.Pending;
 			Appointment appointment = await _repository.UpdateAppointments(value.appointmentId, value.patientCode, stateId);
 			return appointment;
         }
 
+        public async Task<ICollection<Appointment>> GetByDate(string? date)
+		{
+            if (string.IsNullOrEmpty(date))
+            {
+                throw new BadRequestException();
+            }
 
+            if (!DateOnly.TryParse(date, out DateOnly queryDate))
+            {
+                throw new BadRequestException();
+            }
+
+            ICollection<Appointment> appointments = await _repository.GetByDate(queryDate);
+
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+
+            if (queryDate == today) {
+                appointments = appointments.Where(item => item.StateID == AppointmentStates.Pending).ToList();
+            }
+
+            return appointments;
+        }
 
     }
 }
