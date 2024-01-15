@@ -25,7 +25,7 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Entities
         [ForeignKey("AppointmentState")]
         public int StateId { get; set; }
 
-        public DateTime LastUpdate { get; set; }
+        public DateTime? LastUpdate { get; set; }
 
         public AppointmentStateEntity AppointmentState { get; set; }
 

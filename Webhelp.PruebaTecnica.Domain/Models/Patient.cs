@@ -14,6 +14,8 @@ namespace Webhelp.PruebaTecnica.Domain.Models
 
         public int DocumentTypeId { get; set; }
 
+        public string DocumentType { get; set; }
+
         public string Document { get; set; }
     }
 }

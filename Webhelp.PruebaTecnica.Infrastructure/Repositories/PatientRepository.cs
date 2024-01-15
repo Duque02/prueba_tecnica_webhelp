@@ -1,8 +1,10 @@
 ﻿using Webhelp.PruebaTecnica.Domain.Repositories;
 using Webhelp.PruebaTecnica.Domain.Models;
 using Webhelp.PruebaTecnica.Infrastructure.Entities;
-using System;
 using Webhelp.PruebaTecnica.Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Webhelp.PruebaTecnica.Infrastructure.Repositories
 {
@@ -17,18 +19,22 @@ namespace Webhelp.PruebaTecnica.Infrastructure.Repositories
 
         public async Task<Patient> ConsultPatient(int id)
         {
-			PatientEntity? patient = await _dBContext.PatientEntity.FindAsync(id);
+			Patient? patient = await _dBContext.PatientEntity
+				.Where(item => item.PatientId == id)
+				.Select(item => new Patient()
+				{
+					PatientId = item.PatientId,
+					Name = item.Name,
+					LastName = item.LastName,
+					DocumentTypeId = item.DocumentTypeId,
+					DocumentType = item.DocumentType.Description,
+					Document = item.Document
+				})
+				.FirstOrDefaultAsync();
 
 			if (patient != null)
 			{
-				return new Patient()
-				{
-					PatientId = patient.PatientId,
-					Name = patient.Name,
-					LastName = patient.LastName,
-					DocumentTypeId = patient.DocumentTypeId,
-					Document = patient.Document
-				};
+				return patient;
 			}
 			else
 			{

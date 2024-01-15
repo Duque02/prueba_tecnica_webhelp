@@ -6,7 +6,7 @@ namespace Webhelp.PruebaTecnica.API.Services
 {
 	public class PatientService : IPatientSevice
 	{
-		private IPatientRepository _repository;
+		private readonly IPatientRepository _repository;
 
 		public PatientService(IPatientRepository repository)
 		{

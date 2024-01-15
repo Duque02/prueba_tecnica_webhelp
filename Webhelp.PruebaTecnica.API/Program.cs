@@ -29,6 +29,8 @@ builder.Services.AddDbContext<MedicalCenterDBContext>(
 
 builder.Services.AddTransient<IPatientSevice, PatientService>();
 builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+builder.Services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 
 var app = builder.Build();
 
